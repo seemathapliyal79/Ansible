@@ -2,15 +2,21 @@ Ansible adhoc command
 
 ansible all --list-hosts
 
-asnible webservers -m <module name> -a <arguments> 
+###### Basic syntax of ansible commandline modules ############
+      asnible <servername or grpname> -m <module name> -a <arguments> 
 
 ansible webservers -m shell -a uptime
 ansible webservers -m shell -a "free -m"
 ansible dbservers -m shell -a "date"
+ansible webservers -m shell -a 'hostname'
+ansible webservers -m shell -a "service apache2 status"
 
 ansible webservers -m copy -a "src=/home/sthapliyal/test.txt dest=/home/sthapliyal/folder1/text.txt"
 ansible webservers -m file -a "dest=/home/sthapliyal/foldername/a.txt mode=600 owner=root group=root"
 ansible dbservers -m file -a "dest=/home/labsuser/fooplay state=absent"
+ansible webservers -m file -a 'dest=/root/sample.txt state=touch mode=600 owner=root group=root' --become
+
 
 ansible dbservers -m user -a "name=foo" --become-user BECOME_USER
 
+ansible webservers -m apt -a 'name=git state=present' --become
