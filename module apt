@@ -1,0 +1,138 @@
+########## Basic YAML file for installing a package named nginx with apt module,
+---
+ - name: Playbook to install NGINX
+   hosts: webservers
+   become: true
+   tasks: 
+    - name: Ansible apt install nginx
+      apt:
+        name: nginx
+        state: present
+        
+ 
+############## Basic YAML file for remove a package named nginx with apt module,
+ 
+ ---
+ - name: Playbook to install Apache
+   hosts: webservers
+   become: true
+   tasks: 
+    - name: Ansible apt install Apache
+      apt:
+        name: apache2
+        state: absent
+        
+        
+############# How to do an apt update and install a sw with ansible.. it is same as running #apt update and then apt install openssl ## in any unix server
+ 
+ ---
+ - name: Ansible apt module examples
+   hosts: web
+   become: true
+   tasks: 
+    - name: Ansible Update Cache and install openssl
+      apt:
+        name: openssl
+        state: present
+        update_cache: yes
+        
+############# Upgrade a Single package or Software with ansible apt
+---
+ - name: Ansible apt module examples
+   hosts: web
+   become: true
+   tasks: 
+    - name: Ansible Update Cache and upgrade openssl
+      apt:
+        name: openssl
+        state: latest
+        update_cache: yes
+
+############ here is the ansible-playbook to update and upgrade the packages in ubuntu ## same as running apt update and apt upgrade in unix
+---
+ - name: Ansible apt module examples
+   hosts: web
+   become: true
+   tasks: 
+    - name: Ansible Update Cache and Upgrade all Packages
+      register: updatesys
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: Display the last line of the previous task to check the stats
+      debug:
+        msg:  "{{updatesys.stdout_lines|last}}"
+        
+############  How to install a list of packages in One Go with Ansible apt
+---
+- name: Ansible apt module examples
+  hosts: web
+  become: yes
+  tasks:
+    - name: Ansible apt to install multiple packages - LAMP
+      register: updatesys
+      apt:
+        update_cache: yes
+        name:
+          - firewalld
+          - apache2
+          - mariadb-server
+          - php
+          - php-mysql
+        state: present
+        
+#################   Install Specific version of a package with Ansible apt
+
+---
+ - name: Ansible apt module examples
+   hosts: web
+   become: true
+   tasks: 
+    - name: Ansible apt install tomcat Version 8.0.32
+      register: updatesys
+      apt:
+        update_cache: yes
+        name: tomcat8=8.0.32-1ubuntu1.11
+        state: present
+
+ ##############  Install a .deb file or package using ansible apt
+ 
+---
+ - name: Ansible apt module examples
+   hosts: web
+   become: true
+   tasks: 
+
+    - name: Ansible install filebeat deb file from local
+      apt:
+        deb: /tmp/filebeat-7.6.0-amd64.deb
+
+    - name: Ansible install filebeat deb file from url
+      apt: 
+        deb: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.0-amd64.deb
+
+ ############  How to validate if a package is installed – Ansible apt
+ 
+ ---
+ - name: Ansible validate if the packages are installed
+   hosts: web
+   become: true
+   tasks: 
+
+    - name: Gather Package facts
+      package_facts:
+        manager: auto
+    
+    - name: Validating if the package is installed or not
+      debug: 
+        msg: "{{item}} is installed"
+      when: '"{{item}}" in ansible_facts.packages'
+      with_items:
+        - apache2
+        - nginx
+        - filebeat
+ 
+
+        
