@@ -1,0 +1,16 @@
+Ansible adhoc command
+
+ansible all --list-hosts
+
+asnible webservers -m <module name> -a <arguments> 
+
+ansible webservers -m shell -a uptime
+ansible webservers -m shell -a "free -m"
+ansible dbservers -m shell -a "date"
+
+ansible webservers -m copy -a "src=/home/sthapliyal/test.txt dest=/home/sthapliyal/folder1/text.txt"
+ansible webservers -m file -a "dest=/home/sthapliyal/foldername/a.txt mode=600 owner=root group=root"
+ansible dbservers -m file -a "dest=/home/labsuser/fooplay state=absent"
+
+ansible dbservers -m user -a "name=foo" --become-user BECOME_USER
+
