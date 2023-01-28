@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Simple Task
+      shell: hostname
+      notify: trigger1
+  handlers:
+    - name: trigger1
+      debug:
+        msg: " I am demo handler task trigger1 by notify action"
+    - name: trigger2
+      debug:
+        msg: " I am demo handler task trigger2 by notify action"
+~                                                                   
