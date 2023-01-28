@@ -2,6 +2,7 @@
 # ansible-playbook play.yaml --tags=<tag_name>
 # you can also specify two tags as following 
 #ansible-playbook play.yaml --tags=<tag_name1>,<tag_name2>
+# ansible-playbook play.yaml --skip=<tag_name> ---- to skip a tag
 ---
 - hosts: localhost
   tasks: 
