@@ -1,0 +1,19 @@
+# Syntax to run this playbook 
+# ansible-playbook play.yaml --tags=<tag_name>
+# you can also specify two tags as following 
+#ansible-playbook play.yaml --tags=<tag_name1>,<tag_name2>
+---
+- hosts: localhost
+  tasks: 
+  - name: Task 1 
+    debug: 
+      msg: " This is task 1 - RED"
+    tags: RED
+  - name: Task 2 
+    debug: 
+      msg: " This is task 2 - GREEN"
+    tags: GREEN
+  - name: Task 3
+    debug: 
+      msg: " This is task 3 - BLUE"
+    tags: BLUE
