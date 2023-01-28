@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  become: true
+  tasks:
+    - name: run with items greater than 5
+      debug:
+        msg: "{{ item }}"
+      loop: [ 0, 1, 1, 2, 3, 5, 8, 13 ]
+      when: item > 5
+      
