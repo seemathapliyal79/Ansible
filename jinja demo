@@ -1,0 +1,60 @@
+---
+- hosts: localhost
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Course name is DevOps  "
+2
+---
+- hosts: localhost
+  vars: 
+    course_name: DevOps
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Course name is {{ course_name }} "
+3
+# demo for jinja variable with title filter leads title with first letter in caps
+---
+- hosts: localhost
+  vars: 
+    course_name: DevOps
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Course name is {{ course_name | title }} "
+4
+# case converted to upper 
+---
+- hosts: localhost
+  vars: 
+    course_name: DevOps
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Course name is {{ course_name | upper }} "
+5
+# case converted to lower 
+---
+- hosts: localhost
+  vars: 
+    course_name: DevOps
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Course name is {{ course_name | lower }} "
+6
+# list of variabes and min filter 
+# displays lowest score
+---
+- hosts: localhost
+  vars: 
+    student_scores: 
+      - 90
+      - 80
+      - 35
+      - 50
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Lowest score is {{ student_scores | min }} "
