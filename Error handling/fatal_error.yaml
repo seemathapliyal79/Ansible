@@ -1,0 +1,13 @@
+
+# Changes the default behavior of task execution.. it stops executing all tasks in all hosts incase of any error
+---
+- hosts: all
+  any_errors_fatal: true
+  tasks:
+  - name: Good tasks
+    command: which tree
+    register: command_output
+
+  - name: Check command output with debug command
+    debug:
+      msg: "{{ command_output.stdout }}"

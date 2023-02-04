@@ -1,0 +1,11 @@
+# Check date and capture value using register will read the output of the command
+---
+- hosts: localhost
+  tasks:
+  - name: capture date output in register variable
+    command: date
+    register: command_output
+
+  - name: Check command output with debug command
+    debug:
+      msg: "{{ command_output.stdout }}"
