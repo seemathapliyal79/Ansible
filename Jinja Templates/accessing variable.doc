@@ -1,0 +1,44 @@
+# Steps to be followed:
+# 1.	Creating a variable file
+# 2.	Configuring a Jinja2 template
+
+
+Step 1: Creating a variable file
+1.1.	Create your first Jinja2 template by executing the following command:
+sudo nano index.j2 
+ 
+1.2.	Enter the following code in the jinja2 file:
+A message from {{ inventory_hostname }}
+{{ webserver_message }}
+ 
+
+
+Step 2: Configuring a Jinja2 template:
+2.1.	Create a playbook in which we will install Apache using the jinja2 file:
+sudo nano run-apache2.yml 
+ 
+2.2.	Enter the following code in the playbook:
+---
+- name: Check if Apache is working
+  hosts: webservers
+  become: true
+  vars:
+    webserver_message: "I am running to the finish line."
+  tasks:
+    - name: Start apache2
+      service:
+        name: apache2
+        state: started
+
+    - name: Create index.html using Jinja2
+      template:
+        src: index.j2
+        dest: /var/www/html/index.html
+ 
+2.3.	Run the playbook:
+ansible-playbook run-apache2.yml 
+ 
+2.4.	Run a quick ad-hoc Ansible command to check the contents of index.html on the webserver’s nodes:
+ansible webservers -m command -a "cat /var/www/html/index.html"
+ 
+You can notice that Jinja2 is able to pick up the values of the inventory_hostname built-in variable and the webserver_message variable in the playbook.

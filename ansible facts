@@ -1,3 +1,5 @@
+# Below command can be used to collect ansible facts about any server or machine
+
 ansible localhost -m setup
 ansible localhost -m setup
 ansible localhost -m setup -a 'filter=ansible_system'
@@ -9,3 +11,16 @@ ansible localhost -m setup -a 'filter=ansible_memtotal_mb'
 ansible localhost -m setup -a 'filter=ansible_hostname'
 ansible localhost -m setup -a 'filter=ansible_fqdn'
 
+## Step 1: Running playbook containing facts. This playbook will install apache when condition is sucessfully met.
+
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: install update (apt)
+      when: ansible_distribution == "Debian"  # here ansible_distribution is one of teh ansible facts 
+      package:
+        name: apache2
+        state: latest
