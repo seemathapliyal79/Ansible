@@ -1,0 +1,35 @@
+# Ansible uses Jinja2 templating to enable dynamic expressions and access to variables and facts.
+# You can use templating with the template module to copy a configuration file to the nodes. Jinja2 file templates have .j2 extension
+
+- name: Copy a version of named.conf that is dependent on the OS. setype obtained by doing ls -Z /etc/named.conf on original file
+  ansible.builtin.template:
+    src: named.conf_{{ ansible_os_family }}.j2
+    dest: /etc/named.conf
+    group: named
+    setype: named_conf_t
+    mode: 0640
+
+
+    # You can also use templating in playbooks directly, by templating task names and more. You can use all the standard filters and tests included in Jinja2.
+    # case converted to upper 
+---
+- hosts: localhost
+  vars: 
+    course_name: DevOps
+  tasks: 
+  - name: Demo Jinja Style Variables
+    debug:
+      msg: " Course name is {{ course_name | upper }} "
+
+# Example 2
+
+# For example: below yaml file  will display a msg TASK [generate multiple hostnames.] ***********************************************************************************************************************************************************************************************************************
+# ok: [localhost] => {
+  #  "msg": "foo.com,foo.net,bar.com,bar.net" }
+
+---
+- hosts: localhost
+  tasks:
+    - name: generate multiple hostnames.
+      debug:
+        msg: "{{ ['foo', 'bar'] | product(['com', 'net']) | map('join', '.') | join(',') }}"
