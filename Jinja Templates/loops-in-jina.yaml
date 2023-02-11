@@ -1,0 +1,35 @@
+# Jinja2 templating offers control statements such as loops to iterate over a list. Jinja2's syntax encloses the control structures inside the {% %} block
+# Example
+
+#playbook 
+---
+- hosts: worker1
+  become: yes
+  vars:
+    usernames: ['Alice', 'Bob', 'John', 'Martin']
+  tasks:
+    - name: Loops usage within Jinja2 templates
+      template:
+        src: usernames.j2
+        dest: /home/ansible_user/usernames.txt
+
+# Jinja template content in usernames.j2... we can see the usage of {{% % }} for the loops usage
+
+The list of users who are going to
+be part of the ongoing migration
+process.
+{% for item in usernames %}
+{{ item }}
+{% endfor %}
+usernames.j2
+
+
+# Similarly see below the usage of conditionals.Jinja2 uses the if statements for conditional control.
+
+{% if condition %}
+print_some_thing
+{% elif condition2 %}
+execute_another_thing
+{% else %}
+do_something_else
+{% endif %}
